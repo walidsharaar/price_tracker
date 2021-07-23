@@ -1,4 +1,5 @@
 import requests
+from bs4 import BeautifulSoup
 
 # address of the product I want to track
 PRODUCT_URL ="https://www.amazon.de/s?k=iphone+12+pro+max&__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=3IA9HGLKVZ1VH&sprefix=iphone%2Caps%2C253&ref=nb_sb_ss_ts-doa-p_2_6"
@@ -11,3 +12,9 @@ HEADER = {
 # request to html page
 response = requests.get(PRODUCT_URL,headers=HEADER)
 
+soup = BeautifulSoup(response.content,"lxml")
+print(soup.prettify())
+
+price = soup.find(class_="a-price-whole").get_text()
+price = float(price[:-3])
+print(price)
